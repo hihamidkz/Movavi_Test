@@ -18,6 +18,9 @@ public:
 protected:
     void paintEvent(QPaintEvent *event);
 
+private slots:
+    void on_actionOpen_triggered();
+
 private:
     Ui::MainWindow *ui;
 };
