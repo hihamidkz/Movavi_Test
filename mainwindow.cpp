@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     wgt->setAutoFillBackground(true);
     wgt->setFixedSize(pixmap.width(), pixmap.height());
     sa->setWidget(wgt);
+
+    pyr = Pyramid();
 }
 
 MainWindow::~MainWindow()
@@ -46,11 +48,6 @@ void MainWindow::on_actionOpen_triggered()
         QMessageBox::warning(this, "Error", "Cannot open file");
     }
 
-    QPalette pal;
-    pal.setBrush(wgt->backgroundRole(), QBrush(pixmap));
-    wgt->setPalette(pal);
-    wgt->setAutoFillBackground(true);
-    wgt->setFixedSize(pixmap.width(), pixmap.height());
-    sa->setWidget(wgt);
-    ui->statusBar->clearMessage();
+    pyr.setMainLayer(pixmap);
+    pyr.drawCurrentLayer(wgt, sa);
 }

@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "pyramid.h"
+
 #include <QMainWindow>
 #include <QScrollArea>
 
@@ -23,6 +25,7 @@ private:
     Ui::MainWindow *ui;
     QWidget *wgt;
     QScrollArea *sa;
+    Pyramid pyr;
 };
 
 #endif // MAINWINDOW_H

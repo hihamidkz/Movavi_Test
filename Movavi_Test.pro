@@ -13,8 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    pyramid.cpp \
+    pyramidlayer.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    pyramid.h \
+    pyramidlayer.h
 
 FORMS    += mainwindow.ui
