@@ -34,6 +34,13 @@ MainWindow::MainWindow(QWidget *parent) :
     layerLbl = new QLabel(this);
     layerLbl->setGeometry(20, 70, 60, 27);
     layerLbl->setText("Layer:");
+
+    sizeTextLbl = new QLabel(this);
+    sizeTextLbl->setGeometry(20, 97, 40, 27);
+    sizeTextLbl->setText("Size: ");
+
+    sizeLbl = new QLabel(this);
+    sizeLbl->setGeometry(60, 97, 80, 27);
 }
 
 MainWindow::~MainWindow()
@@ -61,6 +68,9 @@ void MainWindow::on_actionOpen_triggered()
     pyr.buildPyramid();
     pyr.drawCurrentLayer(wgt, sa);
 
+    QString size = QString::number(pyr.getCurrentLayerSize().width()) + QString::fromUtf8("x") + QString::number(pyr.getCurrentLayerSize().height());
+    sizeLbl->setText(size);
+
     QStringList lst;
     for (int i = 0; i < pyr.getLayersCount(); i++) {
         lst << QString::number(i);
@@ -73,4 +83,7 @@ void MainWindow::comboBox_index_changed()
 {
     pyr.setCurrentLayer(box->currentText().toInt());
     pyr.drawCurrentLayer(wgt, sa);
+
+    QString size = QString::number(pyr.getCurrentLayerSize().width()) + QString::fromUtf8("x") + QString::number(pyr.getCurrentLayerSize().height());
+    sizeLbl->setText(size);
 }

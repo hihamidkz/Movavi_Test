@@ -31,6 +31,8 @@ private:
     QComboBox *box;
     QLabel *layerLbl;
     QLabel *fileLbl;
+    QLabel *sizeTextLbl;
+    QLabel *sizeLbl;
     Pyramid pyr;
 };
 
