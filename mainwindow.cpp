@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     wgt = new QWidget;
     sa = new QScrollArea(this);
 
-    sa->setGeometry(150, 50, 502, 502);
+    sa->setGeometry(185, 70, 502, 502);
     QPixmap pixmap(500, 500);
     pixmap.fill();
 
@@ -27,6 +27,13 @@ MainWindow::MainWindow(QWidget *parent) :
     sa->setWidget(wgt);
 
     pyr = Pyramid();
+
+    box = new QComboBox(this);
+    box->setGeometry(80, 70, 85, 27);
+
+    layerLbl = new QLabel(this);
+    layerLbl->setGeometry(20, 70, 60, 27);
+    layerLbl->setText("Layer:");
 }
 
 MainWindow::~MainWindow()
@@ -46,8 +53,24 @@ void MainWindow::on_actionOpen_triggered()
 
     if (!pixmap.load(filename)) {
         QMessageBox::warning(this, "Error", "Cannot open file");
+        return;
     }
 
+    ui->statusBar->clearMessage();
     pyr.setMainLayer(pixmap);
+    pyr.buildPyramid();
+    pyr.drawCurrentLayer(wgt, sa);
+
+    QStringList lst;
+    for (int i = 0; i < pyr.getLayersCount(); i++) {
+        lst << QString::number(i);
+    }
+    box->addItems(lst);
+    connect(box, SIGNAL(currentIndexChanged(QString)), SLOT(comboBox_index_changed()));
+}
+
+void MainWindow::comboBox_index_changed()
+{
+    pyr.setCurrentLayer(box->currentText().toInt());
     pyr.drawCurrentLayer(wgt, sa);
 }

@@ -5,6 +5,8 @@
 
 #include <QMainWindow>
 #include <QScrollArea>
+#include <QComboBox>
+#include <QLabel>
 
 namespace Ui {
 class MainWindow;
@@ -20,11 +22,15 @@ public:
 
 private slots:
     void on_actionOpen_triggered();
+    void comboBox_index_changed();
 
 private:
     Ui::MainWindow *ui;
     QWidget *wgt;
     QScrollArea *sa;
+    QComboBox *box;
+    QLabel *layerLbl;
+    QLabel *fileLbl;
     Pyramid pyr;
 };
 
