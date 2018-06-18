@@ -1,9 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QPainter>
 #include <QPixmap>
-#include <QImage>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QLabel>
@@ -13,6 +11,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    wgt = new QWidget;
+    sa = new QScrollArea(this);
+
+    sa->setGeometry(150, 50, 502, 502);
+    QPixmap pixmap(500, 500);
+    pixmap.fill();
+
+    QPalette pal;
+    pal.setBrush(wgt->backgroundRole(), QBrush(pixmap));
+    wgt->setPalette(pal);
+    wgt->setAutoFillBackground(true);
+    wgt->setFixedSize(pixmap.width(), pixmap.height());
+    sa->setWidget(wgt);
 }
 
 MainWindow::~MainWindow()
@@ -20,26 +32,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::paintEvent(QPaintEvent *event)
-{
-    QPixmap qpm(500, 500);
-    QPainter pnt(this);
-
-    qpm.fill(Qt::white);
-    pnt.drawPixmap(150, 50, qpm.width(), qpm.height(), qpm);
-    Q_UNUSED(event);
-}
-
 void MainWindow::on_actionOpen_triggered()
 {
     ui->statusBar->showMessage("Open file");
 
     QString filename = QFileDialog::getOpenFileName(this, "Open file", QDir::currentPath(), "Images (*.png *.jpg)");
-    QImage imageFile;
-    if (!filename.isNull()) {
-        if (!imageFile.load(filename)) {
-            QMessageBox::warning(this, "Error", "Cannot open file");
-        }
+    QPixmap pixmap;
+    if (filename.isNull()) {
+        return;
     }
+
+    if (!pixmap.load(filename)) {
+        QMessageBox::warning(this, "Error", "Cannot open file");
+    }
+
+    QPalette pal;
+    pal.setBrush(wgt->backgroundRole(), QBrush(pixmap));
+    wgt->setPalette(pal);
+    wgt->setAutoFillBackground(true);
+    wgt->setFixedSize(pixmap.width(), pixmap.height());
+    sa->setWidget(wgt);
     ui->statusBar->clearMessage();
 }

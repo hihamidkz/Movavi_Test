@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QScrollArea>
 
 namespace Ui {
 class MainWindow;
@@ -15,14 +16,13 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-protected:
-    void paintEvent(QPaintEvent *event);
-
 private slots:
     void on_actionOpen_triggered();
 
 private:
     Ui::MainWindow *ui;
+    QWidget *wgt;
+    QScrollArea *sa;
 };
 
 #endif // MAINWINDOW_H
