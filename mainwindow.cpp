@@ -13,10 +13,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->setMinimumSize(570, 650);
+    this->setWindowTitle("Pyramid");
+
     wgt = new QWidget;
     sa = new QScrollArea(this);
 
-    sa->setGeometry(185, 70, 502, 502);
+    sa->setGeometry(40, 110, 502, 502);
     QPixmap pixmap(500, 500);
     pixmap.fill();
 
@@ -28,27 +31,27 @@ MainWindow::MainWindow(QWidget *parent) :
     sa->setWidget(wgt);
 
     fileLbl = new QLabel(this);
-    fileLbl->setGeometry(20, 70, 40, 27);
+    fileLbl->setGeometry(40, 60, 40, 27);
     fileLbl->setText("File: ");
 
     file = new QComboBox(this);
-    file->setGeometry(55, 70, 110, 27);
+    file->setGeometry(75, 60, 150, 27);
     connect(file, SIGNAL(currentIndexChanged(QString)), SLOT(fileComboBox_index_changed()));
 
     box = new QComboBox(this);
-    box->setGeometry(80, 97, 85, 27);
+    box->setGeometry(300, 60, 85, 27);
     connect(box, SIGNAL(currentIndexChanged(int)), SLOT(comboBox_index_changed()));
 
     layerLbl = new QLabel(this);
-    layerLbl->setGeometry(20, 97, 60, 27);
+    layerLbl->setGeometry(250, 60, 60, 27);
     layerLbl->setText("Layer:");
 
     sizeTextLbl = new QLabel(this);
-    sizeTextLbl->setGeometry(20, 124, 40, 27);
+    sizeTextLbl->setGeometry(400, 60, 40, 27);
     sizeTextLbl->setText("Size: ");
 
     sizeLbl = new QLabel(this);
-    sizeLbl->setGeometry(80, 124, 80, 27);
+    sizeLbl->setGeometry(450, 60, 80, 27);
 }
 
 MainWindow::~MainWindow()
@@ -125,7 +128,7 @@ void MainWindow::comboBox_index_changed()
 
 void MainWindow::fileComboBox_index_changed()
 {
-    if (file->currentText() == ""/*QString::fromUtf8("")*/)
+    if (file->currentText() == "")
         return;
 
     currentPyr = pyramids.find(file->currentText()).value();
