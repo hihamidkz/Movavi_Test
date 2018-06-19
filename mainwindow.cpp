@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QLabel>
+#include <QtMath>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -98,7 +99,13 @@ void MainWindow::on_actionOpen_triggered()
     currentPyr = pyr;
     pyramids.insert(fname, pyr);
 
-    file->addItem(fname);
+    double diag = sqrt(pow(pixmap.width(), 2) + pow(pixmap.height(), 2));
+    diags.insert(diag, fname);
+
+    file->clear();
+    foreach (QString str, diags.values()) {
+        file->addItem(str);
+    }
     file->setCurrentText(fname);
 
     QString size = QString::number(pyr.getCurrentLayerSize().width()) + QString::fromUtf8("x") + QString::number(pyr.getCurrentLayerSize().height());
@@ -118,6 +125,9 @@ void MainWindow::comboBox_index_changed()
 
 void MainWindow::fileComboBox_index_changed()
 {
+    if (file->currentText() == ""/*QString::fromUtf8("")*/)
+        return;
+
     currentPyr = pyramids.find(file->currentText()).value();
     currentPyr.drawCurrentLayer(wgt, sa);
 

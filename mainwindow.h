@@ -36,6 +36,7 @@ private:
     QLabel *sizeTextLbl;
     QLabel *sizeLbl;
     QMap<QString, Pyramid> pyramids;
+    QMap<double, QString> diags; // Pairs <diagonal, filename>
     Pyramid currentPyr;
 
     void setLayersComboBox();
