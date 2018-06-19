@@ -23,17 +23,22 @@ public:
 private slots:
     void on_actionOpen_triggered();
     void comboBox_index_changed();
+    void fileComboBox_index_changed();
 
 private:
     Ui::MainWindow *ui;
     QWidget *wgt;
     QScrollArea *sa;
     QComboBox *box;
+    QComboBox *file;
     QLabel *layerLbl;
     QLabel *fileLbl;
     QLabel *sizeTextLbl;
     QLabel *sizeLbl;
-    Pyramid pyr;
+    QMap<QString, Pyramid> pyramids;
+    Pyramid currentPyr;
+
+    void setLayersComboBox();
 };
 
 #endif // MAINWINDOW_H
