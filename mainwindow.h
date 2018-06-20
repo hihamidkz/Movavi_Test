@@ -7,6 +7,7 @@
 #include <QScrollArea>
 #include <QComboBox>
 #include <QLabel>
+#include <QGridLayout>
 
 namespace Ui {
 class MainWindow;
@@ -27,7 +28,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QWidget *wgt;
+    QWidget *wgt; // Widget for ScrollArea
+    QWidget *layoutWgt; // Widget to set a layout
     QScrollArea *sa;
     QComboBox *box;
     QComboBox *file;
@@ -38,7 +40,7 @@ private:
     QMap<QString, Pyramid> pyramids;
     QMap<double, QString> diags; // Pairs <diagonal, filename>
     Pyramid currentPyr;
-
+    QGridLayout *lt;
     void setLayersComboBox();
 };
 

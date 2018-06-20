@@ -6,6 +6,8 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QtMath>
+#include <QResizeEvent>
+#include <QSizePolicy>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,13 +15,17 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->setMinimumSize(570, 650);
+    this->setMinimumSize(540, 645);
     this->setWindowTitle("Pyramid");
 
     wgt = new QWidget;
-    sa = new QScrollArea(this);
+    sa = new QScrollArea;
 
-    sa->setGeometry(40, 110, 502, 502);
+    layoutWgt = new QWidget(this);
+    this->setCentralWidget(layoutWgt);
+
+    lt = new QGridLayout;
+
     QPixmap pixmap(500, 500);
     pixmap.fill();
 
@@ -29,29 +35,38 @@ MainWindow::MainWindow(QWidget *parent) :
     wgt->setAutoFillBackground(true);
     wgt->setFixedSize(pixmap.width(), pixmap.height());
     sa->setWidget(wgt);
+    sa->setMinimumSize(502, 502);
 
-    fileLbl = new QLabel(this);
-    fileLbl->setGeometry(40, 60, 40, 27);
+    fileLbl = new QLabel;
+    fileLbl->setMaximumWidth(30);
     fileLbl->setText("File: ");
 
-    file = new QComboBox(this);
-    file->setGeometry(75, 60, 150, 27);
+    file = new QComboBox;
     connect(file, SIGNAL(currentIndexChanged(QString)), SLOT(fileComboBox_index_changed()));
 
-    box = new QComboBox(this);
-    box->setGeometry(300, 60, 85, 27);
+    box = new QComboBox;
     connect(box, SIGNAL(currentIndexChanged(int)), SLOT(comboBox_index_changed()));
 
-    layerLbl = new QLabel(this);
-    layerLbl->setGeometry(250, 60, 60, 27);
+    layerLbl = new QLabel;
+    layerLbl->setMaximumWidth(40);
     layerLbl->setText("Layer:");
 
-    sizeTextLbl = new QLabel(this);
-    sizeTextLbl->setGeometry(400, 60, 40, 27);
+    sizeTextLbl = new QLabel;
+    sizeTextLbl->setMaximumWidth(30);
     sizeTextLbl->setText("Size: ");
 
-    sizeLbl = new QLabel(this);
-    sizeLbl->setGeometry(450, 60, 80, 27);
+    sizeLbl = new QLabel;
+
+    lt->setVerticalSpacing(30);
+    lt->setMargin(20);
+    lt->addWidget(fileLbl, 0, 0);
+    lt->addWidget(file, 0, 1);
+    lt->addWidget(layerLbl, 0, 2);
+    lt->addWidget(box, 0, 3);
+    lt->addWidget(sizeTextLbl, 0, 4);
+    lt->addWidget(sizeLbl, 0, 5);
+    lt->addWidget(sa, 1, 0, 1, 6);
+    layoutWgt->setLayout(lt);
 }
 
 MainWindow::~MainWindow()
