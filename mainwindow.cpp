@@ -65,7 +65,8 @@ void MainWindow::setLayersComboBox()
     box->clear();
 
     QStringList lst;
-    for (int i = 0; i < currentPyr.getLayersCount(); i++) {
+    int count = currentPyr.getLayersCount();
+    for (int i = 0; i < count; i++) {
         lst << QString::number(i);
     }
     box->addItems(lst);
@@ -89,7 +90,7 @@ void MainWindow::on_actionOpen_triggered()
     }
 
     if (!pixmap.load(filename)) {
-        QMessageBox::warning(this, "Error", "Cannot open file" + fname);
+        QMessageBox::warning(this, "Error", "Cannot open file " + fname);
         return;
     }
 
@@ -97,7 +98,6 @@ void MainWindow::on_actionOpen_triggered()
 
     Pyramid pyr = Pyramid();
     pyr.setMainLayer(pixmap);
-    pyr.buildPyramid();
     pyr.drawCurrentLayer(wgt, sa);
     currentPyr = pyr;
     pyramids.insert(fname, pyr);
@@ -113,13 +113,11 @@ void MainWindow::on_actionOpen_triggered()
 
     QString size = QString::number(pyr.getCurrentLayerSize().width()) + QString::fromUtf8("x") + QString::number(pyr.getCurrentLayerSize().height());
     sizeLbl->setText(size);
-
-    setLayersComboBox();
 }
 
 void MainWindow::comboBox_index_changed()
 {
-    currentPyr.setCurrentLayer(box->currentText().toInt());
+    currentPyr.generateLayer(box->currentText().toInt() * 2);
     currentPyr.drawCurrentLayer(wgt, sa);
 
     QString size = QString::number(currentPyr.getCurrentLayerSize().width()) + QString::fromUtf8("x") + QString::number(currentPyr.getCurrentLayerSize().height());

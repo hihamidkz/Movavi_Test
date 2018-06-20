@@ -6,7 +6,6 @@ Pyramid::Pyramid(QPixmap mainl)
 {
     mainLayer = PyramidLayer(mainl, 1);
     currentLayer = mainLayer;
-    layers.push_back(currentLayer);
     layersCount = 1;
 }
 
@@ -16,33 +15,17 @@ void Pyramid::setMainLayer(QPixmap pixmap)
 {
     mainLayer = PyramidLayer(pixmap, 1);
     currentLayer = mainLayer;
-    layers.push_back(currentLayer);
 }
 
-void Pyramid::addLayer(QPixmap pixmap, double coef)
+void Pyramid::generateLayer(double coef)
 {
-    PyramidLayer newLayer(pixmap, coef);
-    layers.push_back(newLayer);
-    layersCount++;
-}
-
-void Pyramid::buildPyramid()
-{
-    QSize currentSize = mainLayer.getSize();
-    double currentCoef = 2;
-
-    while (currentSize.height() >= 360 && currentSize.width() >= 480)
-    {
-        currentSize /= 2;
-        QPixmap newPixmap = mainLayer.getPixmap();
-        addLayer(newPixmap, currentCoef);
-        currentCoef *= 2;
+    if (coef == 0) {
+        currentLayer = mainLayer;
+        return;
     }
-}
 
-void Pyramid::setCurrentLayer(int number)
-{
-    currentLayer = layers[number];
+    QPixmap newPixmap = mainLayer.getPixmap();
+    currentLayer = PyramidLayer(newPixmap, coef);
 }
 
 void Pyramid::drawCurrentLayer(QWidget *wgt, QScrollArea *sa)
@@ -57,5 +40,15 @@ QSize Pyramid::getCurrentLayerSize()
 
 int Pyramid::getLayersCount()
 {
+    QSize currentSize = mainLayer.getSize();
+    double currentCoef = 2;
+
+    while (currentSize.height() >= 100 && currentSize.width() >= 100)
+    {
+        currentSize /= 2;
+        currentCoef *= 2;
+        layersCount++;
+    }
+
     return layersCount;
 }
