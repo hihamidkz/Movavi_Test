@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->setMinimumSize(540, 645);
+    this->setMinimumSize(540, 690);
     this->setWindowTitle("Pyramid");
 
     wgt = new QWidget;
@@ -24,7 +24,9 @@ MainWindow::MainWindow(QWidget *parent) :
     layoutWgt = new QWidget(this);
     this->setCentralWidget(layoutWgt);
 
-    lt = new QGridLayout;
+    hLayout1 = new QHBoxLayout;
+    hLayout2 = new QHBoxLayout;
+    vLayout = new QVBoxLayout;
 
     QPixmap pixmap(500, 500);
     pixmap.fill();
@@ -36,9 +38,9 @@ MainWindow::MainWindow(QWidget *parent) :
     wgt->setFixedSize(pixmap.width(), pixmap.height());
     sa->setWidget(wgt);
     sa->setMinimumSize(502, 502);
+    sa->setAlignment(Qt::AlignCenter);
 
     fileLbl = new QLabel;
-    fileLbl->setMaximumWidth(30);
     fileLbl->setText("File: ");
 
     file = new QComboBox;
@@ -48,25 +50,42 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(box, SIGNAL(currentIndexChanged(int)), SLOT(comboBox_index_changed()));
 
     layerLbl = new QLabel;
-    layerLbl->setMaximumWidth(40);
     layerLbl->setText("Layer:");
 
     sizeTextLbl = new QLabel;
-    sizeTextLbl->setMaximumWidth(30);
     sizeTextLbl->setText("Size: ");
 
     sizeLbl = new QLabel;
 
-    lt->setVerticalSpacing(30);
-    lt->setMargin(20);
-    lt->addWidget(fileLbl, 0, 0);
-    lt->addWidget(file, 0, 1);
-    lt->addWidget(layerLbl, 0, 2);
-    lt->addWidget(box, 0, 3);
-    lt->addWidget(sizeTextLbl, 0, 4);
-    lt->addWidget(sizeLbl, 0, 5);
-    lt->addWidget(sa, 1, 0, 1, 6);
-    layoutWgt->setLayout(lt);
+    coefLbl = new QLabel;
+    coefLbl->setText("Coefficient of decrement: ");
+
+    coefTxt = new QLineEdit;
+    coefTxt->setMaximumWidth(100);
+
+    coefBtn = new QPushButton("Apply");
+
+    hLayout1->addStretch(1);
+    hLayout1->addWidget(fileLbl);
+    hLayout1->addWidget(file);
+    hLayout1->addWidget(layerLbl);
+    hLayout1->addWidget(box);
+    hLayout1->addWidget(sizeTextLbl);
+    hLayout1->addWidget(sizeLbl);
+    hLayout1->addStretch(1);
+
+    hLayout2->addStretch();
+    hLayout2->addWidget(coefLbl);
+    hLayout2->addWidget(coefTxt);
+    hLayout2->addWidget(coefBtn);
+    hLayout2->addStretch();
+
+    vLayout->addLayout(hLayout1);
+    vLayout->addLayout(hLayout2);
+    vLayout->addWidget(sa);
+    vLayout->setSpacing(20);
+    vLayout->setMargin(20);
+    layoutWgt->setLayout(vLayout);
 }
 
 MainWindow::~MainWindow()

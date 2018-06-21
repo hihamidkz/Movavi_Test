@@ -7,7 +7,9 @@
 #include <QScrollArea>
 #include <QComboBox>
 #include <QLabel>
-#include <QGridLayout>
+#include <QPushButton>
+#include <QBoxLayout>
+#include <QLineEdit>
 
 namespace Ui {
 class MainWindow;
@@ -37,10 +39,15 @@ private:
     QLabel *fileLbl;
     QLabel *sizeTextLbl;
     QLabel *sizeLbl;
+    QLabel *coefLbl;
+    QLineEdit *coefTxt;
+    QPushButton *coefBtn;
     QMap<QString, Pyramid> pyramids;
     QMap<double, QString> diags; // Pairs <diagonal, filename>
     Pyramid currentPyr;
-    QGridLayout *lt;
+    QHBoxLayout *hLayout1;
+    QHBoxLayout *hLayout2;
+    QVBoxLayout *vLayout;
     void setLayersComboBox();
 };
 
