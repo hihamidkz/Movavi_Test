@@ -1,12 +1,11 @@
 #include "pyramid.h"
 
-Pyramid::Pyramid() {layersCount = 1;}
+Pyramid::Pyramid() {}
 
 Pyramid::Pyramid(QPixmap mainl)
 {
     mainLayer = PyramidLayer(mainl, 1);
     currentLayer = mainLayer;
-    layersCount = 1;
 }
 
 Pyramid::~Pyramid() { }
@@ -38,15 +37,16 @@ QSize Pyramid::getCurrentLayerSize()
     return currentLayer.getSize();
 }
 
-int Pyramid::getLayersCount()
+int Pyramid::getLayersCount(double coef)
 {
     QSize currentSize = mainLayer.getSize();
-    double currentCoef = 2;
+    double currentCoef = coef;
+    layersCount = 1;
 
     while (currentSize.height() >= 100 && currentSize.width() >= 100)
     {
-        currentSize /= 2;
-        currentCoef *= 2;
+        currentSize /= coef;
+        currentCoef *= coef;
         layersCount++;
     }
 

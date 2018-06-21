@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setMinimumSize(540, 690);
     this->setWindowTitle("Pyramid");
 
+    currentCoef = 2;
+
     wgt = new QWidget;
     sa = new QScrollArea;
 
@@ -62,8 +64,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     coefTxt = new QLineEdit;
     coefTxt->setMaximumWidth(100);
+    coefTxt->setText("2");
 
     coefBtn = new QPushButton("Apply");
+    connect(coefBtn, SIGNAL(clicked(bool)), SLOT(coefBtn_pushed()));
 
     hLayout1->addStretch(1);
     hLayout1->addWidget(fileLbl);
@@ -99,7 +103,7 @@ void MainWindow::setLayersComboBox()
     box->clear();
 
     QStringList lst;
-    int count = currentPyr.getLayersCount();
+    int count = currentPyr.getLayersCount(currentCoef);
     for (int i = 0; i < count; i++) {
         lst << QString::number(i);
     }
@@ -151,7 +155,7 @@ void MainWindow::on_actionOpen_triggered()
 
 void MainWindow::comboBox_index_changed()
 {
-    currentPyr.generateLayer(box->currentText().toInt() * 2);
+    currentPyr.generateLayer(pow(currentCoef, box->currentIndex()));
     currentPyr.drawCurrentLayer(wgt, sa);
 
     QString size = QString::number(currentPyr.getCurrentLayerSize().width()) + QString::fromUtf8("x") + QString::number(currentPyr.getCurrentLayerSize().height());
@@ -169,4 +173,25 @@ void MainWindow::fileComboBox_index_changed()
     setLayersComboBox();
     QString size = QString::number(currentPyr.getCurrentLayerSize().width()) + QString::fromUtf8("x") + QString::number(currentPyr.getCurrentLayerSize().height());
     sizeLbl->setText(size);
+}
+
+void MainWindow::coefBtn_pushed()
+{
+    bool ok;
+    currentCoef = coefTxt->text().toDouble(&ok);
+
+    if (!ok) {
+        QMessageBox::warning(this, "Error", "Invalid value");
+        coefTxt->setText("2");
+        currentCoef = 2;
+        return;
+    } else if (currentCoef <= 1) {
+        QMessageBox::warning(this, "Error", "Coefficient must be greater than 1");
+        coefTxt->setText("2");
+        currentCoef = 2;
+        return;
+    }
+
+    if (!pyramids.isEmpty())
+        setLayersComboBox();
 }

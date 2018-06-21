@@ -15,7 +15,7 @@ public:
     void generateLayer(double);
     void drawCurrentLayer(QWidget *, QScrollArea *);
     QSize getCurrentLayerSize();
-    int getLayersCount();
+    int getLayersCount(double coef);
 private:
     PyramidLayer mainLayer;
     PyramidLayer currentLayer;

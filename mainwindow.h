@@ -27,6 +27,7 @@ private slots:
     void on_actionOpen_triggered();
     void comboBox_index_changed();
     void fileComboBox_index_changed();
+    void coefBtn_pushed();
 
 private:
     Ui::MainWindow *ui;
@@ -48,6 +49,8 @@ private:
     QHBoxLayout *hLayout1;
     QHBoxLayout *hLayout2;
     QVBoxLayout *vLayout;
+
+    double currentCoef;
     void setLayersComboBox();
 };
 
