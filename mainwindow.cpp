@@ -6,7 +6,6 @@
 #include <QMessageBox>
 #include <QLabel>
 #include <QtMath>
-#include <QResizeEvent>
 #include <QSizePolicy>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -94,6 +93,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete vLayout;
     delete ui;
 }
 
@@ -114,7 +114,10 @@ void MainWindow::on_actionOpen_triggered()
 {
     ui->statusBar->showMessage("Open file");
 
-    QString filename = QFileDialog::getOpenFileName(this, "Open file", QDir::currentPath(), "Images (*.png *.jpg)");
+    QString filename = QFileDialog::getOpenFileName(this,
+                                                    "Open file",
+                                                    QDir::currentPath(),
+                                                    "Images (*.png *.jpg)");
     QPixmap pixmap;
     if (filename.isNull()) {
         return;
@@ -136,7 +139,6 @@ void MainWindow::on_actionOpen_triggered()
 
     Pyramid pyr = Pyramid();
     pyr.setMainLayer(pixmap);
-    pyr.drawCurrentLayer(wgt, sa);
     currentPyr = pyr;
     pyramids.insert(fname, pyr);
 
@@ -149,7 +151,9 @@ void MainWindow::on_actionOpen_triggered()
     }
     file->setCurrentText(fname);
 
-    QString size = QString::number(pyr.getCurrentLayerSize().width()) + QString::fromUtf8("x") + QString::number(pyr.getCurrentLayerSize().height());
+    QString size = QString::number(pyr.getCurrentLayerSize().width())
+            + QString::fromUtf8("x")
+            + QString::number(pyr.getCurrentLayerSize().height());
     sizeLbl->setText(size);
 }
 
@@ -158,7 +162,9 @@ void MainWindow::comboBox_index_changed()
     currentPyr.generateLayer(pow(currentCoef, box->currentIndex()));
     currentPyr.drawCurrentLayer(wgt, sa);
 
-    QString size = QString::number(currentPyr.getCurrentLayerSize().width()) + QString::fromUtf8("x") + QString::number(currentPyr.getCurrentLayerSize().height());
+    QString size = QString::number(currentPyr.getCurrentLayerSize().width())
+            + QString::fromUtf8("x")
+            + QString::number(currentPyr.getCurrentLayerSize().height());
     sizeLbl->setText(size);
 }
 
@@ -171,7 +177,9 @@ void MainWindow::fileComboBox_index_changed()
     currentPyr.drawCurrentLayer(wgt, sa);
 
     setLayersComboBox();
-    QString size = QString::number(currentPyr.getCurrentLayerSize().width()) + QString::fromUtf8("x") + QString::number(currentPyr.getCurrentLayerSize().height());
+    QString size = QString::number(currentPyr.getCurrentLayerSize().width())
+            + QString::fromUtf8("x")
+            + QString::number(currentPyr.getCurrentLayerSize().height());
     sizeLbl->setText(size);
 }
 
